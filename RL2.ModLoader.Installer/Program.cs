@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using NativeFileDialogSharp;
@@ -43,6 +44,11 @@ public class Program
 			"MonoMod.Utils.xml"
 		];
 
+		foreach (string MonoModFilename in MonoModFilenames) {
+			File.Copy(CurrentPath + "\\MonoMod\\" + MonoModFilename, ManagedPath + "\\" + MonoModFilename, true);
+			Console.WriteLine("Copying " + MonoModFilename);
+		}
+
 		// Finish up
 		Console.WriteLine("\n\nInstallation complete. Press any key to exit...");
 		Console.ReadKey();
@@ -51,7 +57,6 @@ public class Program
 	private static void Copy(string sourceFile, string destPath)
 	{
         File.Copy(CurrentPath + "\\" + sourceFile, destPath + "\\" +  sourceFile, true);
-        Console.Write("|");
-		Thread.Sleep(10);
+		Console.WriteLine("Copying " + sourceFile);
     }
 }
