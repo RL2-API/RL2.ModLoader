@@ -1,0 +1,14 @@
+# Build output
+.vs
+[Bb]in
+[Oo]bj
+
+# Sublime text project
+*.sublime-workspace
+*.sublime-project
+
+# Libraries
+lib/*.dll
+!lib/Mono*.dll
+lib/Mono.Posix.dll
+lib/Mono.Security.dll
