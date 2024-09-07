@@ -3,6 +3,9 @@
 [Bb]in
 [Oo]bj
 
+# Packaged files
+package
+
 # Sublime text project
 *.sublime-workspace
 *.sublime-project
