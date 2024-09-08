@@ -34,7 +34,7 @@ RL2.ModLoader is a custom mod loader for [Rogue Legacy 2](https://roguelegacy2.c
 3. Launch the game.
 
 ## Latest changes:
-## [v1.0.2](https://github.com/RL2-API/RL2.ModLoader/blob/main/CHANGELOG.md)
+Visit our [changelog](https://github.com/RL2-API/RL2.ModLoader/blob/main/CHANGELOG.md)
 
 ## License
 RL2.ModLoader is licensed under the [LGPL v3.0 license](https://github.com/RL2-API/RL2.ModLoader/blob/main/LICENSE.md)
