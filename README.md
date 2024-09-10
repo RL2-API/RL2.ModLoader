@@ -18,7 +18,7 @@ RL2.ModLoader is a custom mod loader for [Rogue Legacy 2](https://roguelegacy2.c
 4. Choose your game installation folder
 5. Run the game to generate all necessary directories and files
 
-## Build from source
+## Building from source
 1. Run `git clone https://github.com/RL2-API/RL2.ModLoader --recurse-submodules` in your terminal
 2. Go to `RL2.ModLoader.DevSetup` and run the provided `.exe`
 3. Choose your game installation folder
