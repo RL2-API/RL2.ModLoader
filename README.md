@@ -1,11 +1,12 @@
-# RL2.ModLoader
-[![GitHub Release](https://img.shields.io/github/v/release/RL2-API/RL2.ModLoader.svg?logo=github&style=flat-square)](https://github.com/RL2-API/RL2.ModLoader/releases/latest)
-![Docs](https://img.shields.io/badge/Documentation-Online-blue?logo=github&style=flat-square)
-[![Website](https://img.shields.io/badge/Website-gray?logo=webtrees&logoColor=white&style=flat-square)](https://rl2-modloader.onrender.com)
-![Stability](https://img.shields.io/badge/Stability-Full-Green?style=flat-square)
-![Steam version status](https://img.shields.io/badge/Steam-Works-Works?logo=steam&style=flat-square)
-![Epic Games version status](https://img.shields.io/badge/Epic_Games-Works-Works?logo=epicgames&style=flat-square)
-![Mod Loader Icon](https://raw.githubusercontent.com/RL2-API/RL2.ModLoader/main/Assets/ModLoaderSocialPreview-1600x516.png)
+<h1 align="center">
+    <img src="https://raw.githubusercontent.com/RL2-API/RL2.ModLoader/main/Assets/ModLoaderSocialPreview-1600x516.png" alt="Mod Loader Banner"/>
+    RL2.ModLoader <br/>
+    <a href="https://github.com/RL2-API/RL2.ModLoader/releases/latest"><img src="https://img.shields.io/github/v/release/RL2-API/RL2.ModLoader.svg?logo=github&style=flat-square" alt="GitHub Release" /></a>
+    <a href="https://github.com/RL2-API/RL2.ModLoader/wiki"><img src="https://img.shields.io/badge/Documentation-Online-blue?logo=github&style=flat-square" alt="Docs" /></a>
+    <a href="https://rl2-modloader.onrender.com"><img src="https://img.shields.io/badge/Website-gray?logo=webtrees&logoColor=white&style=flat-square" alt="Website" /></a>
+    <img src="https://img.shields.io/badge/Steam-Works-Green?logo=steam&style=flat-square" alt="Steam Version Status" />
+    <img src="https://img.shields.io/badge/Epic_Games-Works-Green?logo=epicgames&style=flat-square" alt="EGS Version Status" />
+</h1>
 
 ## Overview
 RL2.ModLoader is a custom mod loader for [Rogue Legacy 2](https://roguelegacy2.com) - a roguelite created by Cellar Door Games. The project provides a way to load specially prepared modifications into the game.
