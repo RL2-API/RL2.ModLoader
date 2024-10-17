@@ -16,6 +16,9 @@ public partial class ModLoader {
 				self.gameObject.AddComponent<Console>();
 			}
 			orig(self);
+		},
+		new Hookconfig() {
+			ID = "RL2.ModLoader::ConsoleHook"
 		}
 	);
 }

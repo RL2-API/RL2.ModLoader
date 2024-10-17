@@ -14,6 +14,9 @@ public partial class ModLoader
 		(Action orig) => {
 			orig();
 			OnLoad?.Invoke();
+		},
+		new HookConfig() {
+			ID = "RL2.ModLoader::OnGameLoad"
 		}
 	);
 
@@ -26,6 +29,9 @@ public partial class ModLoader
 			Log("Unloading mods...");
 			OnUnload?.Invoke();
 			orig(self);
+		},
+		new HokConfig() {
+			ID = "RL2.ModLoader::OnGameUnload"
 		}
 	);
 

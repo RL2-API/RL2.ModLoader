@@ -1,5 +1,9 @@
 # RL2.ModLoader Changelog
 
+# v1.0.3
+### Changes:
+- All RL2.ModLoader detours now have their own IDs
+
 # v1.0.2
 ### Bug fixes:
 - Commands are now loaded from standalone mods correctly

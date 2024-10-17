@@ -10,6 +10,9 @@ public partial class ModLoader
 		typeof(System_EV).GetMethod("GetVersionString", BindingFlags.Public | BindingFlags.Static),
 		(Func<string> orig) => {
 			return orig() + "\nRL2.ModLoader v." + ModLoaderVersion.ToString();
+		},
+		new Hookconfig() {
+			ID = "RL2.ModLoader::VersionDisplay"
 		}
 	);
 }
