@@ -17,7 +17,7 @@ public partial class ModLoader {
 			}
 			orig(self);
 		},
-		new Hookconfig() {
+		new HookConfig() {
 			ID = "RL2.ModLoader::ConsoleHook"
 		}
 	);

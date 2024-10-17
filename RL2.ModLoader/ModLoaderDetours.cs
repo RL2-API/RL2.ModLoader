@@ -11,7 +11,7 @@ public partial class ModLoader
 		(Func<string> orig) => {
 			return orig() + "\nRL2.ModLoader v." + ModLoaderVersion.ToString();
 		},
-		new Hookconfig() {
+		new HookConfig() {
 			ID = "RL2.ModLoader::VersionDisplay"
 		}
 	);

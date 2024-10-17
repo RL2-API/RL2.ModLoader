@@ -30,7 +30,7 @@ public partial class ModLoader
 			OnUnload?.Invoke();
 			orig(self);
 		},
-		new HokConfig() {
+		new HookConfig() {
 			ID = "RL2.ModLoader::OnGameUnload"
 		}
 	);
