@@ -1,5 +1,9 @@
 # RL2.ModLoader Changelog
 
+# v1.0.4
+### Additions:
+- All installed mods and their versions are displayed below the RL2.ModLoader version number
+
 # v1.0.3
 ### Changes:
 - All RL2.ModLoader detours now have their own IDs
