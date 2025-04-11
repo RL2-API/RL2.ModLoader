@@ -6,12 +6,8 @@
 # Packaged files
 package
 
-# Sublime text project
-*.sublime-workspace
-*.sublime-project
+# Dev setup begone
+RL2.ModLoader.DevSetup*
 
 # Libraries
-lib/*.dll
-!lib/Mono*.dll
-lib/Mono.Posix.dll
-lib/Mono.Security.dll
+lib/
