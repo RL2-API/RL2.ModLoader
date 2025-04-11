@@ -17,16 +17,6 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<Reference Include="lib\*.dll" />
+        <PackageReference Include="NativeFileDialogSharp" Version="0.5.0" />
 	</ItemGroup>
-
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<ItemGroup>
-			<Libs Include="$(ProjectDir)\nfd.dll;$(ProjectDir)\nfd_x86.dll;$(ProjectDir)\lib\*.dll" />
-		</ItemGroup>
-
-		<Copy SourceFiles="@(Libs)" DestinationFolder="$(TargetDir)" />
-		<Delete Files="$(TargetDir)\RL2.ModLoader.Installer.exe.config;$(TargetDir)\RL2.ModLoader.Installer.pdb" />
-	</Target>
-
 </Project>
