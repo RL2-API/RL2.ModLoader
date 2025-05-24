@@ -17,7 +17,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Reference Include="..\lib\*.dll">
+		<Reference Include="..\lib\*.dll" Exclude="..\lib\RL2.*.dll">
 			<Private>false</Private>
 		</Reference>
         <None Remove="RuntimeInitializeOnLoads.json;ScriptingAssemblies.json" />
