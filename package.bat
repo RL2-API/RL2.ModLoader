@@ -1,5 +1,6 @@
 @echo off
 mkdir package
-cd bin/Release
-tar -a -cf ../../package/RL2.ModLoader.zip MonoMod NativeFileDialogSharp.dll nfd.dll nfd_x86.dll RL2.ModLoader.dll RL2.ModLoader.Installer.exe RL2.ModLoader.pdb RL2.ModLoader.xml RuntimeInitializeOnLoads.json ScriptingAssemblies.json 
+cd bin/Release/publish
+tar -a -cf ../../package/RL2.ModLoader.zip package 
+tar -a -cf ../../package/RL2.ModLoader-manual.zip manual
 echo Packaged RL2.ModLoader
