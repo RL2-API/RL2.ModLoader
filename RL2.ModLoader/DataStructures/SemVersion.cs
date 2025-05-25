@@ -82,7 +82,7 @@ public class SemVersion : IComparable<SemVersion>
 	public override string ToString() {
 		string semVersionString = $"{Major}.{Minor}.{Patch}";
 		if (ReleaseType != "") {
-			semVersionString += $"-{ReleaseType}"; 
+			semVersionString += $"-{ReleaseType}";
 		}
 		if (BuildVersion != "") {
 			semVersionString += $"+{BuildVersion}";

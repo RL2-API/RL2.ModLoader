@@ -4,7 +4,8 @@ using System.Reflection;
 
 namespace RL2.ModLoader;
 
-public partial class ModLoader {
+public partial class ModLoader
+{
 
 	/// <summary>
 	/// Attaches a <see cref="Console"/> component to the <see cref="GameManager"/>

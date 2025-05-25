@@ -11,7 +11,7 @@ public class CommandAttribute : Attribute
 	/// <summary>
 	/// Block access to the parameterless constructor
 	/// </summary>
-	private CommandAttribute() { }	
+	private CommandAttribute() { }
 
 	/// <summary>
 	/// The name of the command

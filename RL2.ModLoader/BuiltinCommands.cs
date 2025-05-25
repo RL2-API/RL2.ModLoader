@@ -43,7 +43,7 @@ public partial class ModLoader
 			return;
 		}
 		Directory.CreateDirectory(newModPath);
-		
+
 		CreateCsproj(newModPath + $"\\{modName}.csproj");
 		CreateModManifest(modName, author, newModPath + $"\\{modName}.mod.json");
 		CreateModEntrypointFile(modName, newModPath + $"\\{modName}.cs");

@@ -16,7 +16,7 @@ public class Console : MonoBehaviour
 	private GUIStyle style = new GUIStyle() {
 		normal = new GUIStyleState() {
 			background = Texture2D.grayTexture
-		} 
+		}
 	};
 
 	private void OnEnable() {
