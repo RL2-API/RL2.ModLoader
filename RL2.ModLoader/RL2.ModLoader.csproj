@@ -1,4 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="../RL2.ModLoader.targets" />
+    <Import Project="Build.targets" />
 
 	<PropertyGroup>
 		<TargetFramework>net48</TargetFramework>
@@ -13,27 +15,13 @@
 		<BaseOutputPath>../bin</BaseOutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<Reference Include="..\lib\*.dll" Exclude="..\lib\RL2.*.dll">
-			<Private>false</Private>
-		</Reference>
+    <ItemGroup>
+        <PackageReference Include="MonoMod.RuntimeDetour" Version="22.7.31.1" />
+        <Reference Remove="$(RL2_LibPath)/RL2.ModLoader.dll;$(RL2_LibPath)/Mono.C*.dll;$(RL2_LibPath)/MonoMod*.dll;"/>
         <None Remove="RuntimeInitializeOnLoads.json;ScriptingAssemblies.json" />
 	</ItemGroup>
-
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <ItemGroup>
-            <ScriptingJson Include="$(ProjectDir)\RuntimeInitializeOnLoads.json;$(ProjectDir)\ScriptingAssemblies.json" />
-        </ItemGroup>
-
-        <ItemGroup>
-            <MonoMod Include="$(ProjectDir)\..\lib\Mono*.dll;$(ProjectDir)\..\lib\MonoMod*.xml;" Exclude="$(ProjectDir)\..\lib\MonoPosix.dll;$(ProjectDir)\..\lib\Mono.Posix.dll;$(ProjectDir)\..\lib\Mono.Security.dll;" />
-        </ItemGroup>
-
-        <Copy SourceFiles="@(MonoMod)" DestinationFolder="$(TargetDir)\MonoMod" />
-        <Copy SourceFiles="@(ScriptingJson)" DestinationFolder="$(TargetDir)" />
-    </Target>
 
 </Project>

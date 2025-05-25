@@ -1,0 +1,32 @@
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!-- Output NuGet Package XML -->
+    <Target Name="_ResolveCopyLocalNuGetPackageXmls" AfterTargets="ResolveReferences">
+        <ItemGroup>
+            <ReferenceCopyLocalPaths Include="@(ReferenceCopyLocalPaths->'%(RootDir)%(Directory)%(Filename).xml')" Condition="Exists('%(RootDir)%(Directory)%(Filename).xml')" />
+        </ItemGroup>
+    </Target>
+
+    <!-- Organise publish directory -->
+    <Target Name="Package" AfterTargets="Publish">
+        <ItemGroup>
+            <ScriptingJson Include="$(ProjectDir)\RuntimeInitializeOnLoads.json;$(ProjectDir)\ScriptingAssemblies.json" />
+            <MonoMod Include="$(PublishDir)\Mono*"/>
+            <ModLoader Include="$(PublishDir)\RL2.*" Exclude="$(PublishDir)\*Installer*"/>
+            <Installer Include="$(PublishDir)\RL2.ModLoader.Installer*;$(PublishDir)nfd*;$(PublishDir)Native*" />
+        </ItemGroup>
+
+        <PropertyGroup>
+            <PackageDir>$(PublishDir)/package</PackageDir>
+            <ManualDir>$(PublishDir)/manual/Rogue Legacy 2_Data</ManualDir>
+        </PropertyGroup>
+
+        <!-- Package prep -->
+        <Move SourceFiles="@(Installer)" DestinationFolder="$(PackageDir)" />
+        <Copy SourceFiles="@(MonoMod)" DestinationFolder="$(PackageDir)\MonoMod" />
+        <Copy SourceFiles="@(ScriptingJson);@(ModLoader)" DestinationFolder="$(PackageDir)\ModLoader" />
+    
+        <!-- Manual installation prep -->
+        <Copy SourceFiles="@(ScriptingJson)" DestinationFolder="$(ManualDir)" />
+        <Move SourceFiles="@(ModLoader);@(MonoMod)" DestinationFolder="$(ManualDir)\Managed" />
+    </Target>
+</Project>
