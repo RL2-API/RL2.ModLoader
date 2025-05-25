@@ -26,18 +26,16 @@ public class Program
 		}
 
 		// Copy RL2.ModLoader necessities
-		Copy("RL2.ModLoader.xml", ManagedPath);
-		Copy("RL2.ModLoader.dll", ManagedPath);
-		Copy("RL2.ModLoader.pdb", ManagedPath);
-		Copy("RuntimeInitializeOnLoads.json", DataPath);
-		Copy("ScriptingAssemblies.json", DataPath);
+		Copy("ModLoader\\RL2.ModLoader.xml", ManagedPath);
+		Copy("ModLoader\\RL2.ModLoader.dll", ManagedPath);
+		Copy("ModLoader\\RL2.ModLoader.pdb", ManagedPath);
+		Copy("ModLoader\\RuntimeInitializeOnLoads.json", DataPath);
+		Copy("ModLoader\\ScriptingAssemblies.json", DataPath);
 
 		// Copy MonoMod files
 		string[] MonoModFilenames = [
 			"Mono.Cecil.dll",
 			"Mono.Cecil.Rocks.dll",
-			"MonoMod.Common.dll",
-			"MonoMod.Common.xml",
 			"MonoMod.RuntimeDetour.dll",
 			"MonoMod.RuntimeDetour.xml",
 			"MonoMod.Utils.dll",
@@ -50,13 +48,12 @@ public class Program
 		}
 
 		// Finish up
-		Console.WriteLine("\n\nInstallation complete. Press any key to exit...");
-		Console.ReadKey();
+		Console.WriteLine("\n\nInstallation complete. Closing in 2 seconds...");
+		Thread.Sleep(2_000);
 	}
 
-	private static void Copy(string sourceFile, string destPath)
-	{
-        File.Copy(CurrentPath + "\\" + sourceFile, destPath + "\\" +  sourceFile, true);
+	private static void Copy(string sourceFile, string destPath) {
+		File.Copy(CurrentPath + "\\" + sourceFile, destPath + "\\" + sourceFile, true);
 		Console.WriteLine("Copying " + sourceFile);
-    }
+	}
 }
