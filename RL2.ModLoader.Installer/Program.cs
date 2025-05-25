@@ -8,7 +8,7 @@ namespace RL2.ModLoader.Installer;
 
 public class Program
 {
-	static string CurrentPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+	static string CurrentPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase!;
 
 	[STAThread]
 	static void Main(string[] args) {
@@ -17,6 +17,7 @@ public class Program
 		Thread.Sleep(500);
 
 		DialogResult result = Dialog.FolderPicker();
+
 		string DataPath = result.Path + "\\Rogue Legacy 2_Data";
 		string ManagedPath = DataPath + "\\Managed";
 
@@ -26,11 +27,11 @@ public class Program
 		}
 
 		// Copy RL2.ModLoader necessities
-		Copy("ModLoader\\RL2.ModLoader.xml", ManagedPath);
-		Copy("ModLoader\\RL2.ModLoader.dll", ManagedPath);
-		Copy("ModLoader\\RL2.ModLoader.pdb", ManagedPath);
-		Copy("ModLoader\\RuntimeInitializeOnLoads.json", DataPath);
-		Copy("ModLoader\\ScriptingAssemblies.json", DataPath);
+		Copy("RL2.ModLoader.xml", ManagedPath);
+		Copy("RL2.ModLoader.dll", ManagedPath);
+		Copy("RL2.ModLoader.pdb", ManagedPath);
+		Copy("RuntimeInitializeOnLoads.json", DataPath);
+		Copy("ScriptingAssemblies.json", DataPath);
 
 		// Copy MonoMod files
 		string[] MonoModFilenames = [
@@ -53,7 +54,7 @@ public class Program
 	}
 
 	private static void Copy(string sourceFile, string destPath) {
-		File.Copy(CurrentPath + "\\" + sourceFile, destPath + "\\" + sourceFile, true);
+		File.Copy(CurrentPath + "\\ModLoader\\" + sourceFile, destPath + "\\" + sourceFile, true);
 		Console.WriteLine("Copying " + sourceFile);
 	}
 }
