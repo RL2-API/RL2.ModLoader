@@ -8,6 +8,4 @@ package
 
 # Dev setup begone
 RL2.ModLoader.DevSetup*
-
-# Libraries
-lib/
+RL2.ModLoader.targets
