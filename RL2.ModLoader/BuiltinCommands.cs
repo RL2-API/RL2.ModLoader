@@ -1,6 +1,7 @@
 using Rewired.Utils.Libraries.TinyJson;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace RL2.ModLoader;
 
@@ -42,13 +43,74 @@ public partial class ModLoader
 			ModLoader.Log($"A mod with this name: {modName} already exists in your Mods directory");
 			return;
 		}
+
+		newModPath = ModLoader.ModSources + $"\\{modName}";
+		if (Directory.Exists(newModPath)) {
+			ModLoader.Log($"A mod with this name: {modName} already exists in your ModSources directory");
+			return;
+		}
+
 		Directory.CreateDirectory(newModPath);
 
+		EnsureTargetsFile();
 		CreateCsproj(newModPath + $"\\{modName}.csproj");
 		CreateModManifest(modName, author, newModPath + $"\\{modName}.mod.json");
 		CreateModEntrypointFile(modName, newModPath + $"\\{modName}.cs");
+		CreateLaunchSettingsJson(newModPath);
 
 		ModLoader.Log($"Mod {modName} was created");
+	}
+
+	/// <summary>
+	/// Creates a new RL2.Mods.targets file if needed
+	/// </summary>
+	public static void EnsureTargetsFile() {
+		string targetsPath = ModLoader.ModSources + "\\RL2.Mods.targets";
+		if (File.Exists(targetsPath)) return;
+
+		string dataPath = UnityEngine.Application.dataPath.Replace("/", "\\");
+		File.WriteAllText(targetsPath,
+			$"""
+			<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+				<!-- Path properties -->
+				<PropertyGroup>
+					<RL2_RootPath>{dataPath.Substring(0, dataPath.LastIndexOf('\\'))}\</RL2_RootPath>
+					<RL2_LibsPath>{dataPath}\Managed\</RL2_LibsPath>
+					<RL2_ModsPath>{ModLoader.ModPath}\</RL2_ModsPath>
+					<RL2_ModSourcesPath>{ModLoader.ModSources}\</RL2_ModSourcesPath>
+				</PropertyGroup>
+
+				<!-- Default configuration -->
+				<PropertyGroup>
+					<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+					<Nullable>enable</Nullable>
+					<LangVersion>latest</LangVersion>
+					<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+					<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+				</PropertyGroup>
+
+				<!-- Default mod references -->
+				<ItemGroup>
+					<Reference Include="$(RL2_LibsPath)*.dll">
+						<Private>false</Private>
+					</Reference>
+				</ItemGroup>
+
+				<Target Name="CopyToMods" AfterTargets="PostBuildEvent">
+					<ItemGroup>
+						<Compiled Include="$(TargetDir)$(AssemblyName)*" />
+						<ModJson Include="$(ProjectDir)*.mod.json" />
+					</ItemGroup>
+
+					<Copy SourceFiles="@(Compiled)" DestinationFolder="$(RL2_ModsPath)$(AssemblyName)" />
+					<Copy SourceFiles="@(ModJson)" DestinationFolder="$(RL2_ModsPath)$(AssemblyName)" />
+
+					<Move SourceFiles="@(Compiled)" DestinationFolder="$(TargetDir)$(AssemblyName)" />
+					<Copy SourceFiles="@(ModJson)" DestinationFolder="$(TargetDir)$(AssemblyName)" />
+				</Target>
+			</Project>
+			"""
+		);
 	}
 
 	/// <summary>
@@ -58,17 +120,13 @@ public partial class ModLoader
 	public static void CreateCsproj(string path) {
 		string[] csprojContents = [
 			"<Project Sdk=\"Microsoft.NET.Sdk\">",
+			"	<Import Project=\"../RL2.Mods.targets\" />",
 			"",
 			"	<PropertyGroup>",
 			"		<TargetFramework>net48</TargetFramework>",
-			"		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>",
-			"		<LangVersion>latest</LangVersion>",
 			"	</PropertyGroup>",
 			"",
 			"	<ItemGroup>",
-			"		<Reference Include=\"..\\..\\Managed\\*.dll\">",
-			"			<Private>false</Private>",
-			"		</Reference>",
 			"	</ItemGroup>",
 			"",
 			"</Project>"
@@ -114,5 +172,27 @@ public partial class ModLoader
 		];
 
 		File.WriteAllLines(path, modFileContent, System.Text.Encoding.UTF8);
+	}
+
+
+	/// <summary>
+	/// Creates the launchSettings.json file, allowing users to launch their mod from VS
+	/// </summary>
+	/// <param name="path"></param>
+	public static void CreateLaunchSettingsJson(string path) {
+		Directory.CreateDirectory(path + "\\Properties");
+		File.WriteAllText(path + "\\Properties\\launchSettings.json",
+			"""
+			{
+				"Rogue Legacy 2 (Steam)" : {
+					"commandName": "Executable",
+					"executablePath": "$(RL2_RootPath)//Rogue Legacy 2.exe",
+					"commandLineArgs": "",
+					"workingDirectory": "$(RL2_RootPath)",
+					"nativeDebugging": true
+				}
+			}
+			"""
+		);
 	}
 }

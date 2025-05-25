@@ -16,7 +16,12 @@ public partial class ModLoader
 	/// <summary>
 	/// <see href="SemVersion"/> object representing the modloaders version
 	/// </summary>
-	public static readonly SemVersion ModLoaderVersion = new SemVersion(1, 0, 4);
+	public static readonly SemVersion ModLoaderVersion = new SemVersion(1, 1, 0);
+
+	/// <summary>
+	/// Path to directory containing all mod sources
+	/// </summary>
+	public static readonly string ModSources = Application.dataPath.Replace("/", "\\") + "\\ModSources";
 
 	/// <summary>
 	/// Path to directory containing all mods
