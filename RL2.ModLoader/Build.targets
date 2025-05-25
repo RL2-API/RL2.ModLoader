@@ -13,6 +13,7 @@
             <MonoMod Include="$(PublishDir)\Mono*"/>
             <ModLoader Include="$(PublishDir)\RL2.*" Exclude="$(PublishDir)\*Installer*"/>
             <Installer Include="$(PublishDir)\RL2.ModLoader.Installer*;$(PublishDir)nfd*;$(PublishDir)Native*" />
+            <InstallerRuntimes Include="$(PublishDir)\runtimes\**\*" />
         </ItemGroup>
 
         <PropertyGroup>
@@ -22,9 +23,10 @@
 
         <!-- Package prep -->
         <Move SourceFiles="@(Installer)" DestinationFolder="$(PackageDir)" />
+        <Move SourceFiles="@(InstallerRuntimes)" DestinationFolder="$(PackageDir)\runtimes\%(RecursiveDir)" />
         <Copy SourceFiles="@(MonoMod)" DestinationFolder="$(PackageDir)\MonoMod" />
         <Copy SourceFiles="@(ScriptingJson);@(ModLoader)" DestinationFolder="$(PackageDir)\ModLoader" />
-    
+
         <!-- Manual installation prep -->
         <Copy SourceFiles="@(ScriptingJson)" DestinationFolder="$(ManualDir)" />
         <Move SourceFiles="@(ModLoader);@(MonoMod)" DestinationFolder="$(ManualDir)\Managed" />
