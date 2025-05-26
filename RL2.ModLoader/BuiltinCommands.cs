@@ -186,12 +186,14 @@ public partial class ModLoader
 		File.WriteAllText(path + "\\Properties\\launchSettings.json",
 			"""
 			{
-				"Rogue Legacy 2 (Steam)" : {
-					"commandName": "Executable",
-					"executablePath": "$(RL2_RootPath)Rogue Legacy 2.exe",
-					"commandLineArgs": "",
-					"workingDirectory": "$(RL2_RootPath)",
-					"nativeDebugging": true
+				"profiles" : {
+					"Rogue Legacy 2 (Steam)" : {
+						"commandName": "Executable",
+						"executablePath": "$(RL2_RootPath)Rogue Legacy 2.exe",
+						"commandLineArgs": "",
+						"workingDirectory": "$(RL2_RootPath)",
+						"nativeDebugging": true
+					}
 				}
 			}
 			"""
