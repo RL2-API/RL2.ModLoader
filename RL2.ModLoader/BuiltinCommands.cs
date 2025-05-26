@@ -104,9 +104,11 @@ public partial class ModLoader
 						<ModJson Include="$(ProjectDir)*.mod.json" />
 					</ItemGroup>
 
+					<Message Text="Copying $(AssemblyName) to the Mods directory..." Importance="high" />
 					<Copy SourceFiles="@(Compiled)" DestinationFolder="$(RL2_ModsPath)$(AssemblyName)" />
 					<Copy SourceFiles="@(ModJson)" DestinationFolder="$(RL2_ModsPath)$(AssemblyName)" />
 
+					<Message Text="Preparing $(AssemblyName)'s package folder..." Importance="high" />
 					<Copy SourceFiles="@(Compiled)" DestinationFolder="$(TargetDir)$(AssemblyName)" />
 					<Copy SourceFiles="@(ModJson)" DestinationFolder="$(TargetDir)$(AssemblyName)" />
 				</Target>
