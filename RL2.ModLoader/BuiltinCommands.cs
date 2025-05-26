@@ -146,7 +146,7 @@ public partial class ModLoader
 			Name = modName,
 			Author = author,
 			Version = "1.0.0",
-			ModAssembly = $"bin/Debug/net48/{modName}.dll",
+			ModAssembly = $"{modName}.dll",
 			LoadAfter = []
 		};
 
