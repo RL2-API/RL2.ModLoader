@@ -65,7 +65,7 @@ public partial class ModLoader
 	/// Creates a new RL2.Mods.targets file if needed
 	/// </summary>
 	public static void EnsureTargetsFile() {
-		string targetsPath = ModLoader.ModSources + "\\RL2.Mods.targets";
+		string targetsPath = ModLoader.ModSources + "\\RL2.ModLoader.targets";
 		if (File.Exists(targetsPath)) return;
 
 		string dataPath = UnityEngine.Application.dataPath.Replace("/", "\\");
@@ -75,6 +75,7 @@ public partial class ModLoader
 				<!-- Path properties -->
 				<PropertyGroup>
 					<RL2_RootPath>{dataPath.Substring(0, dataPath.LastIndexOf('\\'))}\</RL2_RootPath>
+					<RL2_DataPath>{dataPath}\</RL2_DataPath>
 					<RL2_LibsPath>{dataPath}\Managed\</RL2_LibsPath>
 					<RL2_ModsPath>{ModLoader.ModPath}\</RL2_ModsPath>
 					<RL2_ModSourcesPath>{ModLoader.ModSources}\</RL2_ModSourcesPath>
@@ -96,6 +97,7 @@ public partial class ModLoader
 					</Reference>
 				</ItemGroup>
 
+				<!-- Utility build task -->
 				<Target Name="CopyToMods" AfterTargets="PostBuildEvent">
 					<ItemGroup>
 						<Compiled Include="$(TargetDir)$(AssemblyName)*" />
@@ -105,7 +107,7 @@ public partial class ModLoader
 					<Copy SourceFiles="@(Compiled)" DestinationFolder="$(RL2_ModsPath)$(AssemblyName)" />
 					<Copy SourceFiles="@(ModJson)" DestinationFolder="$(RL2_ModsPath)$(AssemblyName)" />
 
-					<Move SourceFiles="@(Compiled)" DestinationFolder="$(TargetDir)$(AssemblyName)" />
+					<Copy SourceFiles="@(Compiled)" DestinationFolder="$(TargetDir)$(AssemblyName)" />
 					<Copy SourceFiles="@(ModJson)" DestinationFolder="$(TargetDir)$(AssemblyName)" />
 				</Target>
 			</Project>
@@ -118,21 +120,21 @@ public partial class ModLoader
 	/// </summary>
 	/// <param name="path">Full file path with extension</param>
 	public static void CreateCsproj(string path) {
-		string[] csprojContents = [
-			"<Project Sdk=\"Microsoft.NET.Sdk\">",
-			"	<Import Project=\"../RL2.Mods.targets\" />",
-			"",
-			"	<PropertyGroup>",
-			"		<TargetFramework>net48</TargetFramework>",
-			"	</PropertyGroup>",
-			"",
-			"	<ItemGroup>",
-			"	</ItemGroup>",
-			"",
-			"</Project>"
-		];
+		File.WriteAllText(path,
+			$"""
+			<Project Sdk="Microsoft.NET.Sdk">
+				<Import Project="../RL2.ModLoader.targets" />
 
-		File.WriteAllLines(path, csprojContents, System.Text.Encoding.UTF8);
+				<PropertyGroup>
+					<TargetFramework>net48</TargetFramework>
+				</PropertyGroup>
+
+				<ItemGroup>
+				</ItemGroup>
+
+			</Project>
+			"""
+		);
 	}
 
 	/// <summary>
@@ -159,19 +161,19 @@ public partial class ModLoader
 	/// <param name="modName"></param>
 	/// <param name="path">Full file path with extension</param>
 	public static void CreateModEntrypointFile(string modName, string path) {
-		string[] modFileContent = [
-			"using RL2.ModLoader;",
-			"",
-			$"namespace {modName};",
-			"",
-			"[ModEntrypoint]",
-			$"public class {modName}",
-			"{",
-			$"	public {modName}() {{ }}",
-			"}"
-		];
+		File.WriteAllText(path,
+			$$"""
+			using RL2.ModLoader;
 
-		File.WriteAllLines(path, modFileContent, System.Text.Encoding.UTF8);
+			namespace {{modName}};
+
+			[ModEntrypoint]
+			public class {{modName}}
+			{
+				public {{modName}}() { }
+			}
+			"""
+		);
 	}
 
 
@@ -186,7 +188,7 @@ public partial class ModLoader
 			{
 				"Rogue Legacy 2 (Steam)" : {
 					"commandName": "Executable",
-					"executablePath": "$(RL2_RootPath)//Rogue Legacy 2.exe",
+					"executablePath": "$(RL2_RootPath)Rogue Legacy 2.exe",
 					"commandLineArgs": "",
 					"workingDirectory": "$(RL2_RootPath)",
 					"nativeDebugging": true
