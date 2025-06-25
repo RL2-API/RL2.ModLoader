@@ -7,7 +7,7 @@
     </Target>
 
     <!-- Organise publish directory -->
-    <Target Name="Package" AfterTargets="Build">
+    <Target Name="Package" AfterTargets="Build;Publish">
         <ItemGroup>
             <ScriptingJson Include="$(ProjectDir)\RuntimeInitializeOnLoads.json;$(ProjectDir)\ScriptingAssemblies.json" />
             <MonoMod Include="$(PublishDir)\Mono*"/>
