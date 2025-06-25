@@ -16,7 +16,7 @@ public class CommandAttribute : Attribute
 	/// <summary>
 	/// The name of the command
 	/// </summary>
-	public string CommandName;
+	public string CommandName = "";
 
 	/// <summary>
 	/// Register the method below as a command.

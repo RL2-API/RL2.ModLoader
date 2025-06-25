@@ -1,4 +1,6 @@
+using Rewired.Utils.Libraries.TinyJson;
 using System.Collections;
+using System.IO;
 using UnityEngine;
 
 namespace RL2.ModLoader;
@@ -8,6 +10,16 @@ namespace RL2.ModLoader;
 /// </summary>
 public class Console : MonoBehaviour
 {
+	/// <summary>
+	/// Console config
+	/// </summary>
+	public static ConsoleConfig Config = new();
+	
+	/// <summary>
+	/// Console config path
+	/// </summary>
+	public static readonly string ConfigPath = ModLoader.ModPath + "\\conosle_config.json";
+
 	private bool visible = false;
 
 	private uint consoleLines = 15;  // number of messages to keep
@@ -21,6 +33,8 @@ public class Console : MonoBehaviour
 
 	private void OnEnable() {
 		Application.logMessageReceived += HandleLog;
+		if (File.Exists(ConfigPath)) 
+			Config = JsonParser.FromJson<ConsoleConfig>(File.ReadAllText(ConfigPath));
 	}
 
 	private void OnDisable() {
@@ -44,13 +58,16 @@ public class Console : MonoBehaviour
 
 	private void OnGUI() {
 		if (Event.current.type == EventType.KeyDown) {
-			if (Event.current.keyCode == KeyCode.BackQuote) {
-				visible = !visible;
+			if (Event.current.keyCode == KeyCode.BackQuote && !visible) {
+				visible = true;
 			}
-			if (Event.current.keyCode == KeyCode.Return) {
+			if (Event.current.keyCode == KeyCode.Return && visible) {
 				if (command != string.Empty) {
 					if (command[0] == '/') {
 						CommandManager.RunCommand(command.Substring(1));
+					}
+					else if (!Config.CommandSlashRequired) {
+						CommandManager.RunCommand(command);
 					}
 					else {
 						Debug.Log(command);
@@ -59,7 +76,7 @@ public class Console : MonoBehaviour
 				command = string.Empty;
 			}
 			if (Event.current.keyCode == KeyCode.Escape && visible) {
-				command = string.Empty;
+				if (Config.ClearContentOnClose) command = string.Empty;
 				visible = false;
 			}
 		}

@@ -1,12 +1,48 @@
 using Rewired.Utils.Libraries.TinyJson;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace RL2.ModLoader;
 
 public partial class ModLoader
 {
+	/// <summary>
+	/// Sets specific configs for the console window
+	/// </summary>
+	/// <param name="args"></param>
+	[Command("console-config")]
+	public static void ConsoleConfig(string[] args) {
+		if (args.Length == 0 || args[0] == "help") {
+			Log("""
+			"console-config" command help. Available sub commands:
+			
+				help - show this text
+				slash - toggles the requirement of the slash at the start of commands
+				clear - toggles clearing on close
+			
+			Example usage:
+				/console-config slash
+				/console-config clear
+			""");
+			return;
+		}
+
+		if (args[0] == "slash") {
+			Console.Config.CommandSlashRequired = !Console.Config.CommandSlashRequired;
+			Log($"CommandSlashRequired = {Console.Config.CommandSlashRequired}");
+		}
+		else if (args[0] == "clear") {
+			Console.Config.ClearContentOnClose = !Console.Config.ClearContentOnClose;
+			Log($"ClearContentOnClose = {Console.Config.ClearContentOnClose}");
+		}
+		else {
+			Log($"Subcommand {args[0]} not found. \nUse \"console-config help\" to receive info on how to use the command");
+			return;
+		}
+
+		File.WriteAllText(Console.ConfigPath, JsonWriter.ToJson(Console.Config).Prettify());
+	}
+
 	/// <summary>
 	/// Writes the loaded mods to the logs and console
 	/// </summary>
