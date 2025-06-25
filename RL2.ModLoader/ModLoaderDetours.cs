@@ -7,6 +7,9 @@ namespace RL2.ModLoader;
 
 public partial class ModLoader
 {
+	/// <summary>
+	/// Displays loaded mods
+	/// </summary>
 	public static Hook VersionDisplay = new Hook(
 		typeof(System_EV).GetMethod("GetVersionString", BindingFlags.Public | BindingFlags.Static),
 		(Func<string> orig) => {

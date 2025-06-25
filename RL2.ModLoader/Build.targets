@@ -7,7 +7,7 @@
     </Target>
 
     <!-- Organise publish directory -->
-    <Target Name="Package" AfterTargets="Publish">
+    <Target Name="Package" AfterTargets="Build">
         <ItemGroup>
             <ScriptingJson Include="$(ProjectDir)\RuntimeInitializeOnLoads.json;$(ProjectDir)\ScriptingAssemblies.json" />
             <MonoMod Include="$(PublishDir)\Mono*"/>
@@ -22,13 +22,13 @@
         </PropertyGroup>
 
         <!-- Package prep -->
-        <Move SourceFiles="@(Installer)" DestinationFolder="$(PackageDir)" />
-        <Move SourceFiles="@(InstallerRuntimes)" DestinationFolder="$(PackageDir)\runtimes\%(RecursiveDir)" />
+        <Copy SourceFiles="@(Installer)" DestinationFolder="$(PackageDir)" />
+        <Copy SourceFiles="@(InstallerRuntimes)" DestinationFolder="$(PackageDir)\runtimes\%(RecursiveDir)" />
         <Copy SourceFiles="@(MonoMod)" DestinationFolder="$(PackageDir)\MonoMod" />
         <Copy SourceFiles="@(ScriptingJson);@(ModLoader)" DestinationFolder="$(PackageDir)\ModLoader" />
 
         <!-- Manual installation prep -->
         <Copy SourceFiles="@(ScriptingJson)" DestinationFolder="$(ManualDir)" />
-        <Move SourceFiles="@(ModLoader);@(MonoMod)" DestinationFolder="$(ManualDir)\Managed" />
+        <Copy SourceFiles="@(ModLoader);@(MonoMod)" DestinationFolder="$(ManualDir)\Managed" />
     </Target>
 </Project>
