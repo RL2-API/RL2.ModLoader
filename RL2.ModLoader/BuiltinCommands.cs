@@ -185,15 +185,21 @@ public static class BuiltinCommands
 					<ItemGroup>
 						<Compiled Include="$(TargetDir)$(AssemblyName)*" />
 						<ModJson Include="$(ProjectDir)*.mod.json" />
+						<JsonData Include="$(ProjectDir)**\*.json" Exclude="$(ProjectDir)**\obj\**\*.*;$(ProjectDir)**\Properties\**\*.*"/>
+						<PNGs Include="$(ProjectDir)**\*.png" Exclude="$(ProjectDir)**\obj\**\*.*"/>
 					</ItemGroup>
 
 					<Message Text="Copying $(AssemblyName) to the Mods directory..." Importance="high" />
-					<Copy SourceFiles="@(Compiled)" DestinationFolder="$(RL2_ModsPath)$(AssemblyName)" />
-					<Copy SourceFiles="@(ModJson)" DestinationFolder="$(RL2_ModsPath)$(AssemblyName)" />
+					<Copy SourceFiles="@(Compiled)" DestinationFolder="$(RL2_ModsPath)\$(AssemblyName)" />
+					<Copy SourceFiles="@(ModJson)" DestinationFolder="$(RL2_ModsPath)\$(AssemblyName)" />
+					<Copy SourceFiles="@(JsonData)" DestinationFolder="$(RL2_ModsPath)\$(AssemblyName)\%(RecursiveDir)" />
+					<Copy SourceFiles="@(PNGs)" DestinationFolder="$(RL2_ModsPath)\$(AssemblyName)\%(RecursiveDir)" />
 
 					<Message Text="Preparing $(AssemblyName)'s package folder..." Importance="high" />
-					<Copy SourceFiles="@(Compiled)" DestinationFolder="$(TargetDir)$(AssemblyName)" />
-					<Copy SourceFiles="@(ModJson)" DestinationFolder="$(TargetDir)$(AssemblyName)" />
+					<Copy SourceFiles="@(Compiled)" DestinationFolder="$(TargetDir)\$(AssemblyName)" />
+					<Copy SourceFiles="@(ModJson)" DestinationFolder="$(TargetDir)\$(AssemblyName)" />
+					<Copy SourceFiles="@(JsonData)" DestinationFolder="$(TargetDir)\$(AssemblyName)\%(RecursiveDir)" />
+					<Copy SourceFiles="@(PNGs)" DestinationFolder="$(TargetDir)\$(AssemblyName)\%(RecursiveDir)" />
 				</Target>
 			</Project>
 			"""
