@@ -13,23 +13,23 @@ public class ModManifest : IComparable<ModManifest>
 	/// <summary>
 	/// Mod name
 	/// </summary>
-	public string Name;
+	public string Name = "";
 	/// <summary>
 	/// Mod author
 	/// </summary>
-	public string Author;
+	public string Author = "";
 	/// <summary>
 	/// Mod version. Must follow the <see href="https://semver.org/">symantic versioning scheme</see>
 	/// </summary>
-	public string Version;
+	public string Version = "";
 	/// <summary>
 	/// Relative path from the mod manifest to the mods assembly
 	/// </summary>
-	public string ModAssembly;
+	public string ModAssembly = "";
 	/// <summary>
 	/// List of all mod names which take priority in loading
 	/// </summary>
-	public string[] LoadAfter;
+	public string[] LoadAfter = [];
 	/// <summary>
 	/// Version of the mod as a semantic version object
 	/// </summary>

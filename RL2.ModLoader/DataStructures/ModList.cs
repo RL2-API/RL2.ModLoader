@@ -10,9 +10,9 @@ public class ModList
 	/// <summary>
 	/// List of names of enabled mods
 	/// </summary>
-	public List<string> Enabled;
+	public List<string> Enabled = [];
 	/// <summary>
 	/// List of names of disabled mods
 	/// </summary>
-	public List<string> Disabled;
+	public List<string> Disabled = [];
 }

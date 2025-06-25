@@ -91,7 +91,7 @@ public class SemVersion : IComparable<SemVersion>
 	}
 
 	/// <summary>
-	/// Compares to SemVersion objects
+	/// Compares two SemVersion objects
 	/// </summary>
 	/// <param name="other"></param>
 	/// <returns>-1 if this object precedes the other<br></br>0 if both objects are equal<br></br>1 if this objects succedes the other</returns>
@@ -108,9 +108,11 @@ public class SemVersion : IComparable<SemVersion>
 		if (Patch > other.Patch) {
 			return -1;
 		}
-		if (ReleaseType != other.ReleaseType) {
+		if (ReleaseType is not null && ReleaseType != other.ReleaseType) {
 			return ReleaseType.CompareTo(other.ReleaseType);
 		}
-		return BuildVersion.CompareTo(other.BuildVersion);
+		if (BuildVersion is not null)
+			return BuildVersion.CompareTo(other.BuildVersion);
+		return 0;
 	}
 }
