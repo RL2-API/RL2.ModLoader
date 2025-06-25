@@ -186,7 +186,7 @@ public static class BuiltinCommands
 						<Compiled Include="$(TargetDir)$(AssemblyName)*" />
 						<ModJson Include="$(ProjectDir)*.mod.json" />
 						<JsonData Include="$(ProjectDir)**\*.json" Exclude="$(ProjectDir)**\obj\**\*.*;$(ProjectDir)**\Properties\**\*.*"/>
-						<PNGs Include="$(ProjectDir)**\*.png" Exclude="$(ProjectDir)**\obj\**\*.*"/>
+						<PNGs Include="$(ProjectDir)**\*.png"/>
 					</ItemGroup>
 
 					<Message Text="Copying $(AssemblyName) to the Mods directory..." Importance="high" />
