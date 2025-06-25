@@ -1,42 +1,77 @@
 using Rewired.Utils.Libraries.TinyJson;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace RL2.ModLoader;
 
-public partial class ModLoader
+/// <summary>
+/// Contains all builtin commands
+/// </summary>
+public static class BuiltinCommands 
 {
+	/// <summary>
+	/// Displays a list of all available commands
+	/// </summary>
+	/// <param name="args"></param>
+	[Command("help")]
+	public static void Help(string[] args) {
+		if (args.Length == 0) {
+			StringBuilder builder = new();
+			builder.AppendLine("Available commands: ");
+			foreach (string command in CommandManager.Commands.Keys) {
+				builder.AppendFormat("{0}; ", command);
+			}
+			builder.AppendLine("\nFor more info call the help command with the desired command's name as an argument");
+			builder.AppendLine("\nExample usage:");
+			builder.Append("\t/help console-config");
+			ModLoader.Log(builder.ToString());
+			return;
+		}
+
+		if (args.Length == 1) {
+			if (CommandManager.CommandHelp.TryGetValue(args[0], out string help)) {
+				ModLoader.Log(help);
+				return;
+			} else {
+				ModLoader.Log($"Command {args[0]} does not provide a help text");
+			}
+			return;
+		}
+	}
+
 	/// <summary>
 	/// Sets specific configs for the console window
 	/// </summary>
 	/// <param name="args"></param>
 	[Command("console-config")]
+	[CommandHelp(
+		$"""
+		"console-config" command help. Available sub commands:
+			slash - toggles the requirement of the slash at the start of commands
+			clear - toggles clearing on close
+			
+		Example usage:
+			/console-config slash
+			/console-config clear
+		"""
+	)]
 	public static void ConsoleConfig(string[] args) {
-		if (args.Length == 0 || args[0] == "help") {
-			Log("""
-			"console-config" command help. Available sub commands:
-			
-				help - show this text
-				slash - toggles the requirement of the slash at the start of commands
-				clear - toggles clearing on close
-			
-			Example usage:
-				/console-config slash
-				/console-config clear
-			""");
+		if (args.Length == 0) {
+			ModLoader.Log("");
 			return;
 		}
 
 		if (args[0] == "slash") {
 			Console.Config.CommandSlashRequired = !Console.Config.CommandSlashRequired;
-			Log($"CommandSlashRequired = {Console.Config.CommandSlashRequired}");
+			ModLoader.Log($"CommandSlashRequired = {Console.Config.CommandSlashRequired}");
 		}
 		else if (args[0] == "clear") {
 			Console.Config.ClearContentOnClose = !Console.Config.ClearContentOnClose;
-			Log($"ClearContentOnClose = {Console.Config.ClearContentOnClose}");
+			ModLoader.Log($"ClearContentOnClose = {Console.Config.ClearContentOnClose}");
 		}
 		else {
-			Log($"Subcommand {args[0]} not found. \nUse \"console-config help\" to receive info on how to use the command");
+			ModLoader.Log($"Subcommand {args[0]} not found. \nUse the \"help console-config\" command to receive info on how to use it");
 			return;
 		}
 
@@ -50,7 +85,7 @@ public partial class ModLoader
 	[Command("show-mods")]
 	public static void ShowInstalledMods(string[] args) {
 		List<string> loaded = [];
-		foreach (KeyValuePair<string, SemVersion> entry in LoadedModNamesToVersions) {
+		foreach (KeyValuePair<string, SemVersion> entry in ModLoader.LoadedModNamesToVersions) {
 			loaded.Add($"{entry.Key} v{entry.Value}");
 		}
 		ModLoader.Log($"Installed mods: {string.Join(" | ", loaded)}");
@@ -61,6 +96,18 @@ public partial class ModLoader
 	/// </summary>
 	/// <param name="args"></param>
 	[Command("create-mod")]
+	[CommandHelp(
+		"""
+		"create-mod" command help.
+		Usage scheme:
+			create-mod [ModName - required] [Author - optional]
+
+		Example usage:
+			create-mod ExampleMod RL2.API_Team
+			create-mod TestMod
+		
+		"""
+	)]
 	public static void CreateMod(string[] args) {
 		if (args.Length == 0) {
 			ModLoader.Log("No overload of \"create-mod\" takes in 0 arguments. \nCorrecct usage: \"/create-mod [ModName - required] [Author - optional]\"");

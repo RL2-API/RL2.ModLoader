@@ -63,14 +63,12 @@ public class Console : MonoBehaviour
 			}
 			if (Event.current.keyCode == KeyCode.Return && visible) {
 				if (command != string.Empty) {
+					Debug.Log(command);
 					if (command[0] == '/') {
 						CommandManager.RunCommand(command.Substring(1));
 					}
 					else if (!Config.CommandSlashRequired) {
 						CommandManager.RunCommand(command);
-					}
-					else {
-						Debug.Log(command);
 					}
 				}
 				command = string.Empty;

@@ -15,6 +15,11 @@ public static class CommandManager
 	public static Dictionary<string, MethodInfo> Commands = new Dictionary<string, MethodInfo>();
 
 	/// <summary>
+	/// Stores command help text
+	/// </summary>
+	public static Dictionary<string, string> CommandHelp = [];
+
+	/// <summary>
 	/// Register all commands from the provided assembly.
 	/// </summary>
 	/// <param name="assembly">The assembly to be scanned for commands</param>
@@ -35,6 +40,9 @@ public static class CommandManager
 			}
 			ModLoader.Log($"Found {command.CommandName} command");
 			Commands.Add(command.CommandName, method);
+			if (method.GetCustomAttribute<CommandHelpAttribute>() is CommandHelpAttribute helpAttribute) {
+				CommandHelp.Add(command.CommandName, helpAttribute.HelpText);
+			}
 		}
 	}
 
