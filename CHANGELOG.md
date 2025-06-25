@@ -1,5 +1,21 @@
 # RL2.ModLoader Changelog
 
+# v1.1.0 - The Console QoL update
+### Additions:
+- Help command with 2 usage modes:
+    1. `/help` - displays a list of available commands
+    2. `/help command_name` - displays help text of passed in command, if that command provides it
+- CommandHelp attribute
+    - Used to add help text to the `/help` command
+- Command history
+    - Press `Up` and `Down` to scroll through the history
+- Console config
+    - Allows for disabling clearing the command prompt on close and the requirement for a starting `/` before commands
+### Changes:
+- Revised mod template
+    - Utilizes a new `RL2.ModLoader.targets` file that will be generated in `Game_Path/Rogue Legacy 2_Data/ModSources`
+    - This includes references to all game files as well as a special build step to copy them where they should be
+
 # v1.0.4
 ### Additions:
 - All installed mods and their versions are displayed below the RL2.ModLoader version number
