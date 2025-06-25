@@ -1,5 +1,6 @@
 using Rewired.Utils.Libraries.TinyJson;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -21,6 +22,8 @@ public class Console : MonoBehaviour
 	public static readonly string ConfigPath = ModLoader.ModPath + "\\conosle_config.json";
 
 	private bool visible = false;
+	private List<string> history = [];
+	private int historyIndex = 0;
 
 	private uint consoleLines = 15;  // number of messages to keep
 	private Queue logQueue = new Queue();
@@ -31,10 +34,10 @@ public class Console : MonoBehaviour
 		}
 	};
 
-	private void OnEnable() {
+	 void OnEnable() {
 		Application.logMessageReceived += HandleLog;
 		if (File.Exists(ConfigPath)) 
-			Config = JsonParser.FromJson<ConsoleConfig>(File.ReadAllText(ConfigPath));
+			Config = JsonParser.FromJson<ConsoleConfig>(File.ReadAllText(ConfigPath)) ?? new ConsoleConfig();
 	}
 
 	private void OnDisable() {
@@ -54,28 +57,39 @@ public class Console : MonoBehaviour
 		}
 	}
 
-	private void Update() { }
-
 	private void OnGUI() {
 		if (Event.current.type == EventType.KeyDown) {
 			if (Event.current.keyCode == KeyCode.BackQuote && !visible) {
 				visible = true;
 			}
-			if (Event.current.keyCode == KeyCode.Return && visible) {
-				if (command != string.Empty) {
-					Debug.Log(command);
-					if (command[0] == '/') {
-						CommandManager.RunCommand(command.Substring(1));
+
+			if (visible) {
+				if (Event.current.keyCode == KeyCode.Return) {
+					if (command != string.Empty) {
+						Debug.Log(command);
+						if (command[0] == '/') {
+							RunCommand(command.Substring(1));
+						}
+						else if (!Config.CommandSlashRequired) {
+							RunCommand(command);
+						}
 					}
-					else if (!Config.CommandSlashRequired) {
-						CommandManager.RunCommand(command);
-					}
+					command = string.Empty;
 				}
-				command = string.Empty;
-			}
-			if (Event.current.keyCode == KeyCode.Escape && visible) {
-				if (Config.ClearContentOnClose) command = string.Empty;
-				visible = false;
+				if (Event.current.keyCode == KeyCode.Escape) {
+					if (Config.ClearContentOnClose) command = string.Empty;
+					visible = false;
+					historyIndex = 0;
+				}
+				if (Event.current.keyCode == KeyCode.UpArrow && history.Count > historyIndex) {
+					command = $"/{history[history.Count - historyIndex - 1]}";
+					historyIndex++;
+				}
+				if (Event.current.keyCode == KeyCode.DownArrow && 0 < historyIndex) {
+					historyIndex--;
+					command = $"/{history[history.Count - historyIndex - 1]}";
+				}
+
 			}
 		}
 
@@ -96,5 +110,12 @@ public class Console : MonoBehaviour
 
 			GUI.FocusControl("command");
 		}
+	}
+
+	void RunCommand(string commandString) {
+		historyIndex = 0;
+		history.Remove(commandString);
+		CommandManager.RunCommand(commandString);
+		history.Add(commandString);
 	}
 }
