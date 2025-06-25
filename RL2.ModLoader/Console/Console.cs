@@ -1,3 +1,4 @@
+using System;
 using Rewired.Utils.Libraries.TinyJson;
 using System.Collections;
 using System.Collections.Generic;
@@ -59,8 +60,9 @@ public class Console : MonoBehaviour
 
 	private void OnGUI() {
 		if (Event.current.type == EventType.KeyDown) {
-			if (Event.current.keyCode == KeyCode.BackQuote && !visible) {
-				visible = true;
+			if (Event.current.keyCode == KeyCode.BackQuote) {
+				visible = !visible;
+				if (Config.ClearContentOnClose) command = string.Empty;
 			}
 
 			if (visible) {
@@ -102,14 +104,14 @@ public class Console : MonoBehaviour
 
 			GUI.SetNextControlName("command");
 			command = GUILayout.TextField(command);
-			if (command.EndsWith("`")) {
-				command = string.Empty;
-			}
 
 			GUILayout.EndArea();
 
 			GUI.FocusControl("command");
 		}
+
+		if (command.EndsWith("`", StringComparison.Ordinal))
+			command = command.Remove(command.Length - 1);
 	}
 
 	void RunCommand(string commandString) {
