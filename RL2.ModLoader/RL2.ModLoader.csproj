@@ -24,4 +24,8 @@
         <None Remove="RuntimeInitializeOnLoads.json;ScriptingAssemblies.json" />
 	</ItemGroup>
 
+    <Target Name="CopyToManaged" AfterTargets="Build">
+        <Message Text="Copying $(AssemblyName) to the Managed directory..." Importance="high"/>
+        <Copy SourceFiles="$(OutputPath)RL2.ModLoader.dll;$(OutputPath)RL2.ModLoader.pdb;$(OutputPath)RL2.ModLoader.xml" DestinationFolder="$(RL2_LibPath)\"/>
+    </Target>
 </Project>
