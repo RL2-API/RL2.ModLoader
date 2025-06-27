@@ -1,6 +1,6 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <Import Project="../RL2.Dev.targets" />
-    <Import Project="Build.targets" />
+    <Import Project="Publish.targets" />
 
 	<PropertyGroup>
 		<TargetFramework>net48</TargetFramework>
@@ -12,7 +12,7 @@
 
 	<PropertyGroup>
 		<UseCommonOutputDirectory>true</UseCommonOutputDirectory>
-		<BaseOutputPath>../bin</BaseOutputPath>
+        <BaseOutputPath>../bin</BaseOutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -20,12 +20,13 @@
 
     <ItemGroup>
         <PackageReference Include="MonoMod.RuntimeDetour" Version="22.7.31.1" />
-        <Reference Remove="$(RL2_LibPath)/RL2.ModLoader.dll;$(RL2_LibPath)/Mono.C*.dll;$(RL2_LibPath)/MonoMod*.dll;"/>
+        <Reference Remove="$(RL2_LibPath)/RL2.ModLoader.dll;$(RL2_LibPath)/Mono.C*.dll;$(RL2_LibPath)/MonoMod*.dll;" />
         <None Remove="RuntimeInitializeOnLoads.json;ScriptingAssemblies.json" />
 	</ItemGroup>
 
     <Target Name="CopyToManaged" AfterTargets="Build">
-        <Message Text="Copying $(AssemblyName) to the Managed directory..." Importance="high"/>
-        <Copy SourceFiles="$(OutputPath)RL2.ModLoader.dll;$(OutputPath)RL2.ModLoader.pdb;$(OutputPath)RL2.ModLoader.xml" DestinationFolder="$(RL2_LibPath)\"/>
+        <Message Text="Copying $(AssemblyName) to the Managed directory..." Importance="high" />
+        <Copy SourceFiles="$(OutputPath)RL2.ModLoader.dll;$(OutputPath)RL2.ModLoader.pdb;$(OutputPath)RL2.ModLoader.xml" DestinationFolder="$(RL2_LibPath)\" />
+        <Copy SourceFiles="$(ProjectDir)\RuntimeInitializeOnLoads.json;$(ProjectDir)\ScriptingAssemblies.json" DestinationFolder="$(RL2_DataPath)\" />
     </Target>
 </Project>

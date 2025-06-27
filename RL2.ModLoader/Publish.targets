@@ -7,7 +7,7 @@
     </Target>
 
     <!-- Organise publish directory -->
-    <Target Name="Package" AfterTargets="Build;Publish">
+    <Target Name="PreparePackages" AfterTargets="Publish">
         <ItemGroup>
             <ScriptingJson Include="$(ProjectDir)\RuntimeInitializeOnLoads.json;$(ProjectDir)\ScriptingAssemblies.json" />
             <MonoMod Include="$(PublishDir)\Mono*"/>
@@ -17,8 +17,8 @@
         </ItemGroup>
 
         <PropertyGroup>
-            <PackageDir>$(PublishDir)/package</PackageDir>
-            <ManualDir>$(PublishDir)/manual/Rogue Legacy 2_Data</ManualDir>
+            <PackageDir>$(OutDir)\package</PackageDir>
+            <ManualDir>$(OutDir)\manual\Rogue Legacy 2_Data</ManualDir>
         </PropertyGroup>
 
         <!-- Package prep -->
@@ -30,5 +30,26 @@
         <!-- Manual installation prep -->
         <Copy SourceFiles="@(ScriptingJson)" DestinationFolder="$(ManualDir)" />
         <Copy SourceFiles="@(ModLoader);@(MonoMod)" DestinationFolder="$(ManualDir)\Managed" />
+    </Target>
+
+    <Target Name="Package" AfterTargets="PreparePackages;Publish">
+        <ItemGroup>
+            <Packaged Include="$(OutDir)\package\**\*" />
+        </ItemGroup>
+        
+        <PropertyGroup>
+            <PackageDir>$(ProjectDir)..\package</PackageDir>
+            <StalePackage>$(PackageDir)\RL2.ModLoader</StalePackage>
+        </PropertyGroup>
+        
+        <!-- Remove stale packages -->
+        <Delete Files="$(StalePackage).zip;$(StalePackage)-manual.zip;$(StalePackage).tar.gz;" />
+        
+        <!-- Create new packages-->
+        <ZipDirectory SourceDirectory="$(OutDir)\package" DestinationFile="$(ProjectDir)\..\package\RL2.ModLoader.zip"/>
+        <ZipDirectory SourceDirectory="$(OutDir)\manual" DestinationFile="$(ProjectDir)\..\package\RL2.ModLoader-manual.zip"/>
+
+        <Exec Command="tar -C ../bin/Release -czvf RL2.ModLoader.tar.gz package" />
+        <Move SourceFiles="$(ProjectDir)RL2.ModLoader.tar.gz" DestinationFolder="$(PackageDir)" />
     </Target>
 </Project>
