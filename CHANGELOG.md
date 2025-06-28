@@ -1,5 +1,9 @@
 # RL2.ModLoader Changelog
 
+# v1.1.1 - UNRELEASED
+### Fixes
+- Make Config.ClearContentOnClose work and fix ` symbol in console - [#3](https://github.com/RL2-API/RL2.ModLoader/pull/3) by Dzhake
+
 # v1.1.0 - The Console QoL update
 ### Additions:
 - Help command with 2 usage modes:
