@@ -3,7 +3,7 @@
     RL2.ModLoader <br/>
     <a href="https://github.com/RL2-API/RL2.ModLoader/releases/latest"><img src="https://img.shields.io/github/v/release/RL2-API/RL2.ModLoader.svg?logo=github&style=flat-square" alt="GitHub Release" /></a>
     <a href="https://github.com/RL2-API/RL2.ModLoader/wiki"><img src="https://img.shields.io/badge/Documentation-Online-blue?logo=github&style=flat-square" alt="Docs" /></a>
-    <a href="https://rl2-modloader.onrender.com"><img src="https://img.shields.io/badge/Website-gray?logo=webtrees&logoColor=white&style=flat-square" alt="Website" /></a>
+    <a href="https://rl2-api.org"><img src="https://img.shields.io/badge/Website-gray?logo=webtrees&logoColor=white&style=flat-square" alt="Website" /></a>
     <img src="https://img.shields.io/badge/Steam-Works-Green?logo=steam&style=flat-square" alt="Steam Version Status" />
     <img src="https://img.shields.io/badge/Epic_Games-Works-Green?logo=epicgames&style=flat-square" alt="EGS Version Status" />
 </h1>
