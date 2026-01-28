@@ -1,0 +1,11 @@
+{
+	"profiles" : {
+		"Rogue Legacy 2 (Steam)" : {
+			"commandName": "Executable",
+			"executablePath": "$(RL2_Path)Rogue Legacy 2.exe",
+			"commandLineArgs": "",
+			"workingDirectory": "$(RL2_Path)",
+			"nativeDebugging": true
+		}
+	}
+}
