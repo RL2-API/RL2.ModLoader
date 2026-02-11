@@ -1,6 +1,6 @@
 # RL2.ModLoader Changelog
 
-# v1.2.0 - UNRELEASED
+# v1.2.0
 ### Changes
 - RL2.ModLoader now loads `.pdb` files if they are provided.
 	- This enables modders to debug their mods from their code editros/IDEs
