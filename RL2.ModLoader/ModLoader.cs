@@ -16,7 +16,7 @@ public partial class ModLoader
 	/// <summary>
 	/// <see href="SemVersion"/> object representing the modloaders version
 	/// </summary>
-	public static readonly SemVersion ModLoaderVersion = new SemVersion(1, 1, 0);
+	public static readonly SemVersion ModLoaderVersion = new SemVersion(1, 2, 0);
 
 	/// <summary>
 	/// Path to directory containing all mod sources
@@ -118,9 +118,19 @@ public partial class ModLoader
 				ModList.Enabled.Add(manifest.Name);
 			}
 
-			Log(ModManifestToPath[manifest] + "\\" + manifest.ModAssembly);
-			Assembly modAssembly = Assembly.LoadFrom(ModManifestToPath[manifest] + "\\" + manifest.ModAssembly);
-			Type[] mods = modAssembly.GetTypes().Where(t => t.GetCustomAttribute<ModEntrypointAttribute>() != null).ToArray();
+			string assembly_path = Path.Combine(ModManifestToPath[manifest], manifest.ModAssembly);
+			Assembly? modAssembly = null;
+			try {
+				string  pdb_path = assembly_path.Replace(".dll", ".pdb");
+				if (File.Exists(pdb_path))
+					modAssembly = Assembly.Load(File.ReadAllBytes(assembly_path), File.ReadAllBytes(pdb_path));
+				else
+					modAssembly = Assembly.LoadFrom(assembly_path);
+			} catch {
+				Log($"Failed to load: {manifest.Name}");
+				continue;
+			}
+			Type[] mods = modAssembly!.GetTypes().Where(t => t.GetCustomAttribute<ModEntrypointAttribute>() != null).ToArray();
 			foreach (Type mod in mods) {
 				LoadedModNamesToVersions.Add(manifest.Name, manifest.SemVersion);
 				IndependentModObjects.Add(Activator.CreateInstance(mod));

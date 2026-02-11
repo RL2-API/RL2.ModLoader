@@ -9,3 +9,6 @@ package
 # Dev setup begone
 RL2.ModLoader.DevSetup*
 RL2.Dev.targets
+
+#VSC
+.vscode

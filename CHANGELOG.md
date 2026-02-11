@@ -1,6 +1,10 @@
 # RL2.ModLoader Changelog
 
-# v1.1.1 - UNRELEASED
+# v1.2.0 - UNRELEASED
+### Changes
+- RL2.ModLoader now loads `.pdb` files if they are provided.
+	- This enables modders to debug their mods from their code editros/IDEs
+
 ### Fixes
 - Make Config.ClearContentOnClose work and fix ` symbol in console - [#3](https://github.com/RL2-API/RL2.ModLoader/pull/3) by Dzhake
 
